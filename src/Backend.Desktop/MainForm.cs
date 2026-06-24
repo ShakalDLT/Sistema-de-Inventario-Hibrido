@@ -7,40 +7,35 @@ namespace Backend.Desktop
 {
     public class MainForm : Form
     {
-        // Paleta de colores "Shakal Studio"
-        private readonly Color BackColorDark = ColorTranslator.FromHtml("#161b22");
-        private readonly Color SidebarColor = ColorTranslator.FromHtml("#0d1117");
-        private readonly Color AccentColor = ColorTranslator.FromHtml("#bc8cff");
-
         private readonly InventarioService _service = new InventarioService();
-        private TextBox txtSku = new TextBox { Width = 200, BackColor = Color.FromArgb(30, 30, 30), ForeColor = Color.White };
-        private Button btnVender = new Button { Text = "Procesar Venta", BackColor = Color.FromArgb(60, 60, 60), ForeColor = Color.White, FlatStyle = FlatStyle.Flat };
+        
+        // Controles con colores legibles para adultos
+        private TextBox txtSku = new TextBox { Width = 250, Height = 30, Font = new Font("Segoe UI", 12) };
+        private Button btnVender = new Button { Text = "Procesar Venta", Width = 150, Height = 40, BackColor = Color.FromArgb(13, 110, 253), ForeColor = Color.White, Font = new Font("Segoe UI", 10, FontStyle.Bold) };
         private DataGridView dgvVentas = new DataGridView();
-        private Label lblTotal = new Label { Text = "Total: $0", ForeColor = Color.FromArgb(188, 140, 255), Font = new Font("Segoe UI", 14, FontStyle.Bold) };
+        private Label lblTotal = new Label { Text = "Total: $0", Font = new Font("Segoe UI", 18, FontStyle.Bold), ForeColor = Color.FromArgb(33, 37, 41) };
 
         public MainForm()
         {
-            this.Text = "Sistema POS - Shakal Studio";
-            this.Size = new Size(700, 450);
-            this.BackColor = BackColorDark;
+            this.Text = "Sistema POS - Gestión de Ventas";
+            this.Size = new Size(700, 500);
+            this.BackColor = Color.FromArgb(248, 249, 250); // Fondo claro suave
 
-            // Configuración del DataGridView
+            // Configuración de Tabla Profesional
             dgvVentas.Location = new Point(20, 80);
-            dgvVentas.Size = new Size(640, 250);
-            dgvVentas.BackgroundColor = SidebarColor;
-            dgvVentas.DefaultCellStyle.BackColor = BackColorDark;
-            dgvVentas.DefaultCellStyle.ForeColor = Color.White;
-            dgvVentas.ColumnHeadersDefaultCellStyle.BackColor = SidebarColor;
-            dgvVentas.EnableHeadersVisualStyles = false;
+            dgvVentas.Size = new Size(640, 300);
+            dgvVentas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvVentas.BackgroundColor = Color.White;
+            dgvVentas.BorderStyle = BorderStyle.FixedSingle;
             
-            dgvVentas.Columns.Add("SKU", "SKU Producto");
-            dgvVentas.Columns.Add("Precio", "Precio");
+            // Estilo de filas
+            dgvVentas.DefaultCellStyle.Font = new Font("Segoe UI", 11);
+            dgvVentas.RowTemplate.Height = 30;
 
-            txtSku.Location = new Point(20, 30);
-            btnVender.Location = new Point(230, 28);
-            btnVender.FlatAppearance.BorderColor = AccentColor;
-            
-            lblTotal.Location = new Point(20, 350);
+            // Layout
+            txtSku.Location = new Point(20, 25);
+            btnVender.Location = new Point(280, 20);
+            lblTotal.Location = new Point(20, 400);
 
             btnVender.Click += BtnVender_Click;
 
@@ -54,7 +49,9 @@ namespace Backend.Desktop
         {
             if (string.IsNullOrWhiteSpace(txtSku.Text)) return;
             dgvVentas.Rows.Add(txtSku.Text, "$1.500");
+            lblTotal.Text = $"Total: ${dgvVentas.Rows.Count * 1500}";
             txtSku.Clear();
+            txtSku.Focus(); // Importante para que el adulto no tenga que hacer clic de nuevo
         }
     }
 }
