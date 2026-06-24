@@ -1,6 +1,5 @@
 using System;
 using System.Windows.Forms;
-using Backend.Desktop;
 
 namespace Backend.Desktop
 {
@@ -11,9 +10,18 @@ namespace Backend.Desktop
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
-            // Ejecuta tu ventana creada por código
-            Application.Run(new MainForm());
+
+            // Primero lanzamos el Login
+            LoginForm login = new LoginForm();
+            if (login.ShowDialog() == DialogResult.OK)
+            {
+                // Si el login es exitoso, corremos la ventana principal
+                Application.Run(new MainForm());
+            }
+            else
+            {
+                Application.Exit();
+            }
         }
     }
 }
